@@ -42,7 +42,7 @@ export default defineConfig({
           process.env.VITE_OAUTH_REDIRECT_URI = redirectUri
         }
 
-        //process.env.VITE_CLIENT_URI = metadata.client_uri
+        // process.env.VITE_CLIENT_URI = metadata.client_uri
         process.env.VITE_OAUTH_SCOPE = metadata.scope
       },
     },
