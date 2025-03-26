@@ -1,0 +1,10 @@
+{
+  "client_id": "http://localhost",
+  "redirect_uris": ["http://127.0.0.1/"],
+  "scope": "atproto transition:generic",
+  "grant_types": ["authorization_code", "refresh_token"],
+  "response_types": ["code"],
+  "token_endpoint_auth_method": "none",
+  "application_type": "native",
+  "dpop_bound_access_tokens": true
+}
