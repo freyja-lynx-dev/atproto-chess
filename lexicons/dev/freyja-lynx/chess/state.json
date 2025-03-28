@@ -1,0 +1,37 @@
+{
+  "lexicon": 1,
+  "id": "dev.freyja-lynx.test.chess.state",
+  "defs": {
+    "main": {
+      "type": "record",
+      "description": "The match state for a given Atproto Chess match. Record Key should be a combination of the two player's DIDs, plus a number to represent match count.",
+      "key": "any",
+      "record": {
+        "type": "object",
+        "required": ["black", "white", "parent", "mostRecent"],
+        "properties": {
+          "black": {
+            "type": "string",
+            "format": "did",
+            "description": "The DID of the player who took the second turn."
+          },
+          "white": {
+            "type": "string",
+            "format": "did",
+            "description": "The DID of the player who took the first turn."
+          },
+          "parent": {
+            "type": "ref",
+            "ref": "com.atproto.repo.strongRef",
+            "description": "The original accept that started this match."
+          },
+          "mostRecent": {
+            "type": "ref",
+            "ref": "com.atproto.repo.strongRef",
+            "description": "The player's most recent move."
+          }
+        }
+      }
+    }
+  }
+}

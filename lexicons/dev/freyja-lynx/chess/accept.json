@@ -1,0 +1,43 @@
+{
+  "lexicon": 1,
+  "id": "dev.freyja-lynx.test.chess.accept",
+  "defs": {
+    "main": {
+      "type": "record",
+      "description": "Accepting a round of Atproto Chess. Acceptee chooses white or black.",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": ["black", "white", "prev"],
+        "properties": {
+          "black": {
+            "type": "string",
+            "format": "did",
+            "description": "The DID of the player who is going second."
+          },
+          "white": {
+            "type": "string",
+            "format": "did",
+            "description": "The DID of the player who is going first."
+          },
+          "prev": {
+            "type": "ref",
+            "ref": "com.atproto.repo.strongRef",
+            "description": "The invite this accept is responding to."
+          },
+          "firstMove": {
+            "type": "ref",
+            "ref": "com.atproto.repo.strongRef",
+            "description": "If acceptee chooses to go first, that move is referenced here."
+          },
+          "message": {
+            "type": "string",
+            "maxGraphemes": 2048,
+            "maxLength": 2048,
+            "description": "A message for your opponent."
+          }
+        }
+      }
+    }
+  }
+}

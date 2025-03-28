@@ -1,0 +1,42 @@
+{
+  "lexicon": 1,
+  "id": "dev.freyja-lynx.test.chess.concede",
+  "defs": {
+    "main": {
+      "type": "record",
+      "description": "A concession of an Atproto Chess match.",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": ["prev", "parent", "state"],
+        "properties": {
+          "prev": {
+            "type": "ref",
+            "ref": "com.atproto.repo.strongRef",
+            "description": "The previous move in the match."
+          },
+          "parent": {
+            "type": "ref",
+            "ref": "com.atproto.repo.strongRef",
+            "description": "The accept record that started this match."
+          },
+          "state": {
+            "type": "ref",
+            "ref": "com.atproto.repo.strongRef",
+            "description": "The user's match state at the time of concession."
+          },
+          "defeat": {
+            "type": "boolean",
+            "description": "The conceding opponent can elect to indicate whether they admit defeat, or if they are conceding for other reasons."
+          },
+          "message": {
+            "type": "string",
+            "maxGraphemes": 2048,
+            "maxLength": 2048,
+            "description": "A message for your opponent."
+          }
+        }
+      }
+    }
+  }
+}

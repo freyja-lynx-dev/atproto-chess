@@ -14,8 +14,6 @@ configureOAuth({
   metadata: {
     client_id: import.meta.env.VITE_OAUTH_CLIENT_ID,
     redirect_uri: import.meta.env.VITE_OAUTH_REDIRECT_URI,
-    // client_id: 'http://localhost',
-    // redirect_uri: 'http://127.0.0.1:12520',
   },
 })
 

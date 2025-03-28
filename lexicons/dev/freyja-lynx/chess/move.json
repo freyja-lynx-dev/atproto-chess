@@ -1,0 +1,37 @@
+{
+  "lexicon": 1,
+  "id": "dev.freyja-lynx.test.chess.move",
+  "defs": {
+    "main": {
+      "type": "record",
+      "description": "A move in a match of Atproto chess",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": ["move", "prev", "parent"],
+        "properties": {
+          "move": {
+            "type": "string",
+            "description": "A string representing the move the record creator wants to make."
+          },
+          "prev": {
+            "type": "ref",
+            "ref": "com.atproto.repo.strongRef",
+            "description": "The previous move in the match, or the Black player's accept if they elected to go second."
+          },
+          "parent": {
+            "type": "ref",
+            "ref": "com.atproto.repo.strongRef",
+            "description": "The accept record that started this match."
+          },
+          "message": {
+            "type": "string",
+            "maxGraphemes": 2048,
+            "maxLength": 2048,
+            "description": "A message for your opponent."
+          }
+        }
+      }
+    }
+  }
+}
