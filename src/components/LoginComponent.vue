@@ -1,25 +1,20 @@
 <script lang="ts" setup>
 import { ref, useTemplateRef, onMounted } from 'vue'
 import {
-  configureOAuth,
   createAuthorizationUrl,
-  // finalizeAuthorization,
-  // // getSession,
-  // OAuthUserAgent,
+  OAuthUserAgent,
   resolveFromIdentity,
-  // type Session,
+  getSession,
+  type Session,
 } from '@atcute/oauth-browser-client'
 import { usePersistedStore } from '@/state/store'
-
-configureOAuth({
-  metadata: {
-    client_id: import.meta.env.VITE_OAUTH_CLIENT_ID,
-    redirect_uri: import.meta.env.VITE_OAUTH_REDIRECT_URI,
-  },
-})
+import { XRPC } from '@atcute/client'
 
 const handle = ref<string>('')
 const loggedIn = ref('Not logged in')
+const session = ref<Session>()
+const oauthAgent = ref<OAuthUserAgent>()
+const AuthXRPC = ref<XRPC>()
 
 const loginButton = useTemplateRef<HTMLButtonElement>('login-button')
 const persistedStore = usePersistedStore()
@@ -38,10 +33,18 @@ const login = async () => {
 }
 
 onMounted(async () => {
-  await new Promise((resolve) => setTimeout(resolve, 250))
   console.log(persistedStore.token)
-  if (persistedStore.token) {
+  if (persistedStore.token && persistedStore.lastUser) {
+    session.value = await getSession(persistedStore.lastUser, { allowStale: true })
+    if (session.value) {
+      oauthAgent.value = new OAuthUserAgent(session.value)
+      AuthXRPC.value = new XRPC({ handler: oauthAgent.value })
+    }
     loggedIn.value = 'Logged In! :>'
+    loginButton.value!.disabled = true
+  } else {
+    loginButton.value!.disabled = false
+    loggedIn.value = 'Not logged in'
   }
 })
 </script>

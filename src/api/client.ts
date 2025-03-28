@@ -4,4 +4,4 @@ const manager = new CredentialManager({
   service: 'https://bsky.social',
 })
 
-export const xrpc = new XRPC({ handler: manager })
+export const agent = new XRPC({ handler: manager })
