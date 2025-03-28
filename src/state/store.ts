@@ -8,4 +8,5 @@ export const usePersistedStore = defineStore('persistedStore', {
       lastUser: null as At.DID | null,
     }
   },
+  persist: true,
 })
