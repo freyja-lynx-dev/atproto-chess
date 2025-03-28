@@ -1,18 +1,22 @@
 # atproto-chess
 
-This template should help get you started developing with Vue 3 in Vite.
+Email chess for a modern era, built on the AT Protocol.
 
-## Recommended IDE Setup
+## Bird's-eye Perspective
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+The data flow is as follows:
 
-## Type Support for `.vue` Imports in TS
+- User A invites another with a `...chess.invite`.
+- User B `...chess.accept`s this invite, determines whether they want to go first or not. If so, they attach a `...chess.move`.
+- Each `...chess.move` will be strongreffed to both the original `...chess.accept` and the previous move of the opponent.
+- Each player will track the state of the match using a `...chess.state` record, updated after each of their own moves.
+- Players can `...chess.concede` a match, rendering it finished.
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+This forms a decentralized reverse-singly-linked list of sorts, which represents a chess match. Ideally, you should be able to rebuild the state of an ongoing chess match solely using the data from each player's PDS -- no intermediary AppView required, and both players would have the same match state. While it is technically possible to accomplish this with just `accept` and `move` records, the `state` record reduces the computational complexity of re-discovering match state, and comparing two `state` records from each player would allow a stable reconstruction of match state.
 
-## Customize configuration
+Additionally, because of the way `strongref`s work, this match data should also be relatively tamper-resistant. As each move is linked to the previous move based on a hash of the data at-move-creation, if a user were to go back and edit a previous record, the tampering would be detected by comparing the CIDs of the tampered move and the move at-creation. One form of tampering that cannot be accounted for, at least without an intermediary AppView to act as a "referee" of sorts, is a player "taking back" a move they had previously submitted -- otherwise, CID checking on the user-side _should_ be able to indicate when the other player has tampered with the match.
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+Ultimately, this is just an experiment -- an excuse to learn web development with Vue.js, an excuse to play with the at protocol, and an excuse to finally learn how chess works.
 
 ## Project Setup
 
@@ -37,3 +41,10 @@ npm run build
 ```sh
 npm run lint
 ```
+
+### Special Thanks
+
+- [PinkSea](https://github.com/shinolabs/PinkSea)
+- [psky-atp](https://github.com/psky-atp/)
+- [PDSls](https://github.com/notjuliet/pdsls)
+- [atcute](https://codeberg.org/mary-ext/atcute)
